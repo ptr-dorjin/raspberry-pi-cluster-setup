@@ -10,7 +10,7 @@ Full descriptions is in the official  https://www.raspberrypi.org/documentation/
 
 == Copy OS image to micro SD card
 
-NOTE: This needs to be N times for each Pi
+NOTE: This needs to be done N times for each Pi
 
 - Run `lsblk -p` to find the SD card device/partition name.
 It's not going to change if you're using the same SD reader port.
