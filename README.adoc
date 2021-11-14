@@ -6,3 +6,4 @@
 - xref:03-set-up-network.adoc[Set up network]
 - xref:04-test-connection.adoc[Test connection]
 - xref:05-install-kubernetes.adoc[Install Kubernetes]
+- xref:06-hello-world.adoc[Hello World app]
