@@ -10,7 +10,7 @@ Full descriptions is in the official  https://www.raspberrypi.org/documentation/
 
 == Copy OS image to micro SD card
 
-NOTE: This needs to be done N times for each Pi
+NOTE: This needs to be done N times - for each Pi
 
 - Run `lsblk -p` to find the SD card device/partition name.
 It's not going to change if you're using the same SD reader port.
@@ -63,7 +63,7 @@ network={
 
 == Configure Pi OS
 
-NOTE: This also needs to be done N times for each Pi
+NOTE: This also needs to be done N times - for each Pi
 
 - Insert microSD card in the Pi and boot
 - Find IP address of the Pi from the computer: `sudo nmap -sP 192.168.0.1/24` (use your subnet range).
@@ -82,7 +82,7 @@ The output should have something like:
 
 == Copy SSH keys to each Pi
 
-NOTE: This also needs to be done N times for each Pi
+NOTE: This also needs to be done N times - for each Pi
 
 This command will copy the most recent public key that matches `~/.ssh/id*.pub`.
 Another key can be explicitly specified with `-i` argument:
