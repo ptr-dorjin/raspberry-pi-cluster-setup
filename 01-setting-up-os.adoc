@@ -1,0 +1,92 @@
+= Setting up OS
+
+This is a short version.
+Full descriptions is in the official  https://www.raspberrypi.org/documentation/installation/installing-images/README.md[OS installation guide]
+
+== Prepare image
+
+- Download the latest Raspberry Pi OS Lite 64-bit, which is a headless version, from https://downloads.raspberrypi.org/raspios_lite_arm64/images/[Raspberry Pi Lite arm64 images page]
+- Unzip the archive to get an `*.img` file
+
+== Copy OS image to micro SD card
+
+NOTE: This needs to be N times for each Pi
+
+- Run `lsblk -p` to find the SD card device/partition name.
+It's not going to change if you're using the same SD reader port.
+- If the SD card is mounted, unmount the partition `umount /dev/mmcblk0p1`
+- Copy the image to the SD card (important: use the whole device, not partition):
+
+    sudo dd bs=4M if=2021-05-07-raspios-buster-arm64-lite.img of=/dev/mmcblk0 status=progress conv=fsync
+
+=== Optional: Check if the image was correctly written
+
+- Note the number of `in` records from what dd has printed: `xxx+0 records in`.
+Use this number in this command, which will copy the SD card back to the disk as a new image file:
+
+    sudo dd bs=4M if=/dev/mmcblk0 of=from-sd-card.img count=xxx
+
+- Compare the original image with the one copied from the SD card:
+
+    diff -s from-sd-card.img 2021-05-07-raspios-buster-arm64-lite.img
+
+=== Flush
+- Run `sync` to ensure that write cache is flushed and that it is safe to unmount the SD card.
+
+=== Set up SSH
+
+- Create a directory on the computer to mount the boot partition: `sudo mkdir -p /mnt/sd/boot`
+- Mount the boot partition: `sudo mount /dev/mmcblk0p1 /mnt/sd/boot`
+- Create empty ssh file: `sudo touch /mnt/sd/boot/ssh`
+
+=== Set up Wi-Fi
+
+- Create a file on the computer: `/tmp/wpa_supplicant.conf` with the content (do it only once and then reuse it for all Pi's):
++
+----
+ctrl_interface=DIR=/var/run/wpa_supplicant GROUP=netdev
+update_config=1
+country=US
+
+network={
+    ssid="your-network-name"
+    psk="your-network-password"
+    key_mgmt=WPA-PSK
+}
+----
+
+- Copy it to the boot partition: `sudo cp /tmp/wpa_supplicant.conf /mnt/sd/boot/`
+
+=== Ready!
+
+- Now the SD card is ready and can be unmounted from the computer `sudo umount /dev/mmcblk0p1`
+
+== Configure Pi OS
+
+NOTE: This also needs to be done N times for each Pi
+
+- Insert microSD card in the Pi and boot
+- Find IP address of the Pi from the computer: `sudo nmap -sP 192.168.0.1/24` (use your subnet range).
+The output should have something like:
+
+    Nmap scan report for 192.168.0.12
+    Host is up (0.095s latency).
+    MAC Address: <mac-address-of-the-pi> (Raspberry Pi Trading)
+
+- SSH on it, e.g. `ssh pi@192.168.0.12`
+- Default password is `raspberry`, which needs to be changed immediately.
+- Once inside the Pi, run `sudo raspi-config` and follow the wizard to change the password.
+- `sudo reboot`
+- Connect again
+- Run `sudo apt update && sudo apt install -y python3-dev python3-pip libyaml-dev libffi-dev git && sudo pip3 install ansible`
+
+== Copy SSH keys to each Pi
+
+NOTE: This also needs to be done N times for each Pi
+
+This command will copy the most recent public key that matches `~/.ssh/id*.pub`.
+Another key can be explicitly specified with `-i` argument:
+
+----
+ssh-copy-id pi@192.168.0.12
+----

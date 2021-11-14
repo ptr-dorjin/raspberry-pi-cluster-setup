@@ -1,0 +1,11 @@
+= Testing Connection After Network Setup
+
+`./04-test-connection/inventory` file contains the new IP addresses.
+
+Ways to test the connection with the new static IP addresses:
+
+[source,shell script]
+----
+cd 04-test-connection
+ansible all -i inventory -m ping
+----

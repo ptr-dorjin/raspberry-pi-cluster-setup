@@ -1,0 +1,83 @@
+= Raspberry Pi 4 cluster
+
+== What to buy
+See power and network options below. I chose to power Pis via USB-C and network them via Wi-Fi, for now.
+If that doesn't work well, I'll try PoE hats.
+
+|===
+|Item |Qty |Price |Purpose |Where to buy
+
+|Raspberry Pi 4 Model B - 4 GB RAM |4 |$55 |Runs the code |PiShop from raspberrypi.org. PiShop doesn't have a limit of 1 Pi per customer
+|Official Raspberry Pi Power Supply 5.1V 3A with USB-C |1 |$8.00 |If any of your Pi has revision < 1.2 |PiShop
+|Micro HDMI to Standard HDMI adapter braided |1 |$11.99 |Just in case for initial setup |Amazon
+|5-pack Samsung Evo Plus Class 10 32GB microSD card |1 |$35 ($7 each) |Storage for each Pi |Amazon
+|5-pack USB 2.0 A-to-C charge cables |1 |$9.99 ($2 each) |Connect the charger to the Pis |Amazon
+|USB charger with at least 4 ports, 2.4A per port and at least 10A total |1 |$25.99 |For power supply |Amazon
+|Raspberry Pi Stackable Case |1 |$24.99 |To hold the Pis |Amazon
+|*Total* |= 3+|$335.96
+|===
+
+== Power options for Raspberry Pi 4 Model B
+.Quotes from the Raspberry Pi Foundation site:
+. `A good quality 2.5A power supply can be used if downstream USB peripherals consume less than 500mA in total. https://www.raspberrypi.org/products/raspberry-pi-4-model-b/specifications/[link]`
+. On the other hand, there they also say (https://www.raspberrypi.org/documentation/hardware/raspberrypi/power/README.md[link]):
+.. `Recommended PSU current capacity: 3.0A.`
+.. `Maximum total USB peripheral current draw: 1.2A`
+.. `Typical bare-board active current consumption: 600mA`
+.. `For Raspberry Pi 4, we recommend our 3A USB-C Supply`
+
+So, is it 2.5A or 3A?
+
+=== Powering via USB-C port with the recommended Raspberry Pi power supply
+. Pros:
+.. official and recommended by Raspberry Pi Foundation
+.. reliable and safe
+.. provides 3A
+. Cons:
+.. bulky
+.. need to buy a big power strip to fit all 4 power supplies
+
+=== Powering via USB-C port with USB-A-to-C cable
+I'm going to rely on the 1st quote above and assume that 2.5A is enough, because I'm not going to connect any USB peripherals to Pis. The Pis will run headless in the cluster, and I'll connect to them via SSH.
+
+. Pros:
+.. one USB charger is not that bulky compared to 4 power supplies
+. Cons:
+.. need to buy a reliable USB charger with at least 4 USB ports that can provide 2.5A per port and 10A in total (for 4 Pis). The best I could find is 2.4A per port.
+.. there is a chance that a Pi is of a revision < 1.2, and then it has a hardware bug due to which you can power the Pi only with the official power supply. Everything else will not work. There is no way to tell which Revision you're buying online, until it arrives to you.
+
+== Networking options
+When powering Pis via USB-C cable, there are 2 scenarios how to connect them to one network.
+
+=== Network all Pis via Wi-Fi:
+. Pros:
+.. less space
+.. need only one power outlet - for the USB charger
+.. only one cable connected to Pi: USB-C power supply
+. Cons:
+.. Wi-Fi is slower
+
+=== Alternatively, network all Pis via RJ-45 Ethernet cable
+. Pros
+.. faster network (up to 1GB)
+. Cons
+.. need to buy a switch with at least 4 ports
+.. need to configure the switch properly
+.. it'll become bulky: 2 power supplies (one for Pis, another for the switch)
+.. each Pi will have 2 cables connected: USB-C for power and RJ-45 cable for network
+.. need to buy 4 RJ-45 cables
+
+== Powering via PoE (Power over Ethernet)
+Another great option is to leverage PoE when a device is powered via Ethernet cable. It's a quite new standard.
+
+Ethernet RJ-45 cable (should be > Cat5) is used for both powering the device and for data transfer. So, it's an additional option to both powering and networking.
+
+. Pros
+.. don't need USB-C cables
+.. don't need a USB charger
+.. only one cable connected to Pi - RJ-45 Ethernet, which both powers the Pi and transfers data
+.. faster than Wi-Fi
+. Cons
+.. need to buy 4 PoE hats
+.. need to buy a switch that supports PoE
+.. need to configure the switch properly

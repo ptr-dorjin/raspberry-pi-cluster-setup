@@ -1,0 +1,22 @@
+---
+# Mapping of what hardware MAC addresses should be configured with specific IPs.
+mac_address_mapping:
+  "dc:a6:32:d3:64:d3":
+    name: kube1.pd
+    ip: "192.168.0.101"
+  "dc:a6:32:d3:64:d9":
+    name: kube2.pd
+    ip: "192.168.0.102"
+  "dc:a6:32:d3:64:b5":
+    name: kube3.pd
+    ip: "192.168.0.103"
+  "dc:a6:32:d3:64:9d":
+    name: kube4.pd
+    ip: "192.168.0.104"
+
+# Nameservers to use in resolv.conf.
+dns_nameservers:
+  - "8.8.8.8"
+  - "8.8.4.4"
+
+rpis_ip_gateway: "192.168.0.1"

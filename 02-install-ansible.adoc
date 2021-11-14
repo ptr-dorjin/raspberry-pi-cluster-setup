@@ -1,0 +1,12 @@
+= Configure Ansible
+
+Run all these commands on the controlling computer (only once)
+
+- Install pip3: `sudo apt install python3-pip`
+- Install Ansible: `sudo pip3 install ansible`
+- cd to `./02-install-ansible`
+- In `inventory`, list all Raspberry Pi's _current_ IP addresses (automatically assigned)
+- Test:
+    * with adhoc command which prints time: `ansible -i inventory rpis -a "date"`
+    * with a playbook:  `ansible-playbook -i inventory main.yml -v`
+    * shut down Pis: `ansible -i inventory rpis -b -a poweroff`
