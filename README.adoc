@@ -1,0 +1,8 @@
+= Raspberry Pi cluster setup
+
+- xref:00-raspberry-pi-cluster-options.adoc[Setup Options]
+- xref:01-set-up-os.adoc[Set up OS]
+- xref:02-install-ansible.adoc[Install Ansible]
+- xref:03-set-up-network.adoc[Set up network]
+- xref:04-test-connection.adoc[Test connection]
+- xref:05-install-kubernetes.adoc[Install Kubernetes]
