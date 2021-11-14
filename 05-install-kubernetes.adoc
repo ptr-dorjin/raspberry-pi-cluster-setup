@@ -32,6 +32,7 @@ So, for now, run it manually N times on each node:
 
 - Validate it with `kubectl version`.
 Ideally, client version and server version should match.
+- Check nodes: `kubectl get nodes`
 
 == Shut down Pis before you unplug them
 
