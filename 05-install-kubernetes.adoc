@@ -3,18 +3,21 @@
 I'm using K3s from Rancher which is a lightweight K8s distro.
 The steps below are based on https://github.com/k3s-io/k3s-ansible
 
-== Run `k3s-ansible` playbook
+== Prerequisite
 
-- cd to `./05-install-k8s`
-- Specify Raspberry Pi's IP addresses in `inventory/hosts.ini`
 - Disable swap manually.
 I couldn't find a working Ansible role that could disable swap permanently, unfortunately.
-So, for now, run it manually N times on each node:
+So, for now, run it manually N times - on each node:
 
     sudo dphys-swapfile swapoff
     sudo dphys-swapfile uninstall
     sudo update-rc.d dphys-swapfile remove
     sudo apt purge -y dphys-swapfile
+
+== Run `k3s-ansible` playbook
+
+- cd to `./05-install-k8s`
+- Specify Raspberry Pi's IP addresses in `inventory/hosts.ini`
 
 - Run the playbook:
 

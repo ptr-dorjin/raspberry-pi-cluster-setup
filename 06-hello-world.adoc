@@ -1,0 +1,27 @@
+= Run Hello World app in the cluster
+
+----
+kubectl apply -f 06-hello-world/hello-world.yml
+kubectl get pods --namespace hello-world
+----
+
+Then open any node on port 31117 in the browser, for example, node `kube3`: http://192.168.0.103:31117
+
+Finally, delete the namespace and it will also remove the pods:
+
+----
+kubectl delete ns hello-world
+----
+
+== If namespace deletion got stuck in Terminating status
+
+    kubectl get ns hello-world -o json > /tmp/ns.json
+    vim /tmp/ns.json
+
+delete items in finalizers array so that it becomes empty
+
+    kubectl proxy
+
+this will show the port, use it in the next command:
+
+    curl -k -H "Content-Type: application/json" -X PUT --data-binary @/tmp/ns.json http://127.0.0.1:8001/api/v1/namespaces/hello-world/finalize

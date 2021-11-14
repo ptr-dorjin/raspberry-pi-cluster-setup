@@ -1,0 +1,54 @@
+---
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: hello-world
+
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: hello-world
+  namespace: hello-world
+spec:
+  replicas: 50
+  selector:
+    matchLabels:
+      app: hello-world
+  template:
+    metadata:
+      labels:
+        app: hello-world
+    spec:
+      containers:
+        - name: hello-world
+          image: bashofmann/rancher-demo:1.0.0
+          imagePullPolicy: Always
+          ports:
+            - containerPort: 8080
+              name: web
+              protocol: TCP
+          env:
+            - name: COW_COLOR
+              value: purple
+          readinessProbe:
+            httpGet:
+              port: web
+              path: /
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: hello-node
+  namespace: hello-world
+spec:
+  selector:
+    app: hello-world
+  type: NodePort
+  ports:
+    - name: http
+      port: 8080
+      targetPort: 8080
+      nodePort: 31117
+      protocol: TCP
