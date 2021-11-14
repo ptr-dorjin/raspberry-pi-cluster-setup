@@ -2,7 +2,7 @@
 
 NOTE: This step is based on how Jeff Geerling sets up network for his Raspberry Pi "Dramble" cluster
 
-- cd to `./03-setup-network`
+- cd to `./03-set-up-network`
 - In `inventory`, list all Raspberry Pi's _current_ IP addresses (automatically assigned)
 - In `vars.yml`, specify each Pi's MAC addresses and desired final IP addresses and hostnames. MAC addresses can be found by running `sudo nmap -sP 192.168.0.1/24` (use your subnet range)
 - Run `ansible-playbook -i inventory main.yml`

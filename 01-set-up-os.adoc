@@ -3,6 +3,10 @@
 This is a short version.
 Full descriptions is in the official  https://www.raspberrypi.org/documentation/installation/installing-images/README.md[OS installation guide]
 
+== Requisites
+
+- A laptop/desktop with Linux
+
 == Prepare image
 
 - Download the latest Raspberry Pi OS Lite 64-bit, which is a headless version, from https://downloads.raspberrypi.org/raspios_lite_arm64/images/[Raspberry Pi Lite arm64 images page]
