@@ -34,7 +34,7 @@ Use this number in this command, which will copy the SD card back to the disk as
 
     diff -s from-sd-card.img 2021-05-07-raspios-buster-arm64-lite.img
 
-=== Flush
+=== Flush. DO NOT FORGET!!!
 - Run `sync` to ensure that write cache is flushed and that it is safe to unmount the SD card.
 
 === Set up SSH
