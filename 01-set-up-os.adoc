@@ -82,14 +82,14 @@ The output should have something like:
 - Once inside the Pi, run `sudo raspi-config` and follow the wizard to change the password.
 - `sudo reboot`
 - Connect again
-- Run `sudo apt update && sudo apt install -y python3-dev python3-pip libyaml-dev libffi-dev git && sudo pip3 install ansible`
+- Run `sudo apt update && sudo apt upgrade -y && sudo apt install -y python3-dev python3-pip libyaml-dev libffi-dev git && sudo pip3 install ansible`
 
 == Copy SSH keys to each Pi
 
 NOTE: This also needs to be done N times - for each Pi
 
 This command will copy the most recent public key that matches `~/.ssh/id*.pub`.
-Another key can be explicitly specified with `-i` argument:
+Another key can be explicitly specified with `-i` argument, e.g.:
 
 ----
 ssh-copy-id pi@192.168.0.12
