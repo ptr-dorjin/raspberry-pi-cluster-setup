@@ -12,9 +12,39 @@ Full descriptions is in the official  https://www.raspberrypi.org/documentation/
 - Download the latest Raspberry Pi OS Lite 64-bit, which is a headless version, from https://downloads.raspberrypi.org/raspios_lite_arm64/images/[Raspberry Pi Lite arm64 images page]
 - Unzip the archive to get an `*.img` file
 
-== Copy OS image to micro SD card
+== Setup
 
 NOTE: This needs to be done N times - for each Pi
+
+Use either xref:_setup_using_script[the script] or xref:_manual_setup[manual steps]. If you do it for the 1st time, then use manual steps to understand what's going on. The script just automates manual steps.
+
+[#_setup_using_script]
+== Setup using script
+
+=== Create Wi-Fi config file locally
+
+Create a file on the computer: `/tmp/wpa_supplicant.conf` with the content (do it only once and then reuse it for all Pi's):
+
+----
+ctrl_interface=DIR=/var/run/wpa_supplicant GROUP=netdev
+update_config=1
+country=US
+
+network={
+    ssid="your-network-name"
+    psk="your-network-password"
+    key_mgmt=WPA-PSK
+}
+----
+
+=== Run the script
+
+`sudo 01-set-up-os/set-up-os.sh`
+
+[#_manual_setup]
+== Manual setup
+
+=== Copy OS image to micro SD card
 
 - Run `lsblk -p` to find the SD card device/partition name.
 It's not going to change if you're using the same SD reader port.
@@ -23,7 +53,7 @@ It's not going to change if you're using the same SD reader port.
 
     sudo dd bs=4M if=2021-05-07-raspios-buster-arm64-lite.img of=/dev/mmcblk0 status=progress conv=fsync
 
-=== Optional: Check if the image was correctly written
+==== Optional: Check if the image was correctly written
 
 - Note the number of `in` records from what dd has printed: `xxx+0 records in`.
 Use this number in this command, which will copy the SD card back to the disk as a new image file:
@@ -34,16 +64,17 @@ Use this number in this command, which will copy the SD card back to the disk as
 
     diff -s from-sd-card.img 2021-05-07-raspios-buster-arm64-lite.img
 
-=== Flush. DO NOT FORGET!!!
+==== Flush. DO NOT FORGET!!!
+
 - Run `sync` to ensure that write cache is flushed and that it is safe to unmount the SD card.
 
-=== Set up SSH
+==== Set up SSH
 
 - Create a directory on the computer to mount the boot partition: `sudo mkdir -p /mnt/sd/boot`
 - Mount the boot partition: `sudo mount /dev/mmcblk0p1 /mnt/sd/boot`
 - Create empty ssh file: `sudo touch /mnt/sd/boot/ssh`
 
-=== Set up Wi-Fi
+==== Set up Wi-Fi
 
 - Create a file on the computer: `/tmp/wpa_supplicant.conf` with the content (do it only once and then reuse it for all Pi's):
 +
@@ -61,7 +92,7 @@ network={
 
 - Copy it to the boot partition: `sudo cp /tmp/wpa_supplicant.conf /mnt/sd/boot/`
 
-=== Ready!
+==== Ready!
 
 - Now the SD card is ready and can be unmounted from the computer `sudo umount /dev/mmcblk0p1`
 
