@@ -14,16 +14,7 @@ Full descriptions is in the official  https://www.raspberrypi.org/documentation/
 
 == Setup
 
-NOTE: This needs to be done N times - for each Pi
-
-Use either xref:_setup_using_script[the script] or xref:_manual_setup[manual steps]. If you do it for the 1st time, then use manual steps to understand what's going on. The script just automates manual steps.
-
-[#_setup_using_script]
-== Setup using script
-
-=== Create Wi-Fi config file locally
-
-Create a file on the computer: `/tmp/wpa_supplicant.conf` with the content (do it only once and then reuse it for all Pi's):
+- Create a file on the computer: `/tmp/wpa_supplicant.conf` with the content below. Fill in your Wi-Fi network name and password. Do it only once and then reuse it for all Pis.
 
 ----
 ctrl_interface=DIR=/var/run/wpa_supplicant GROUP=netdev
@@ -37,18 +28,36 @@ network={
 }
 ----
 
-=== Run the script
+- Run `lsblk -p` to find the SD card device and its partition name(s).
+It's not going to change if you're using the same SD reader or USB port.
 
-`sudo 01-set-up-os/set-up-os.sh`
+NOTE: The rest of commands below needs to be done N times - for each Pi
+
+Use either xref:_setup_using_script[the script] or xref:_manual_setup[manual steps]. If you do it for the 1st time, then use manual steps to understand what's going on. The script just automates manual steps.
+
+[#_setup_using_script]
+== Setup using script
+
+Edit `set-up-os.sh`, specify variables:
+
+- `OS_IMAGE` - path to `*.img` file
+- `SD_CARD_DEVICE` - the whole SD card device, which can be found in `lsblk -p` output. For instance: `/dev/mmcblk0`, when plugging it in via build-in card reader, or `/dev/sda`, when plugging it via USB card reader.
+- `SD_CARD_PARTITION_BOOT` - boot partition on the SD card, e.g. `/dev/mmcblk0p1` or `/dev/sda1`
+- `SD_CARD_PARTITION_ROOTFS` - rootfs partition on the SD card, e.g. `/dev/mmcblk0p2` or `/dev/sda2`. It is present only if the SD card already has OS installed.
+
+WARNING: DO NOT run the script without checking the variables above! You risk wiping another device by mistake.
+
+When you made sure the paths are OK, run the script:
+
+    cd 01-set-up-os
+    sudo ./set-up-os.sh
 
 [#_manual_setup]
 == Manual setup
 
 === Copy OS image to micro SD card
 
-- Run `lsblk -p` to find the SD card device/partition name.
-It's not going to change if you're using the same SD reader port.
-- If the SD card is mounted, unmount the partition `umount /dev/mmcblk0p1`
+- If the SD card is mounted, unmount the partition `umount /dev/mmcblk0p1` (the partition can be found by running `lsblk -p`)
 - Copy the image to the SD card (important: use the whole device, not partition):
 
     sudo dd bs=4M if=2021-05-07-raspios-buster-arm64-lite.img of=/dev/mmcblk0 status=progress conv=fsync
