@@ -4,6 +4,7 @@ OS_IMAGE=/home/peter/Downloads/iso/2021-10-30-raspios-bullseye-arm64.img
 WI_FI_CONFIG=/tmp/wpa_supplicant.conf
 SD_CARD_DEVICE=/dev/sda
 SD_CARD_PARTITION_BOOT=/dev/sda1
+# rootfs is present only if the SD card already has OS installed on it
 SD_CARD_PARTITION_ROOTFS=/dev/sda2
 BOOT_PARTITION_MOUNT_POINT=/mnt/sd/boot
 
@@ -32,7 +33,7 @@ else
 fi
 
 ##########
-echo -n "2. Copying OS image to SD card ... "
+echo "2. Copying OS image to SD card ... "
 if dd bs=4M if=$OS_IMAGE of=$SD_CARD_DEVICE status=progress conv=fsync; then
     echo "Copied OS image"
 else
