@@ -1,6 +1,6 @@
 #!/bin/bash
 
-OS_IMAGE=/home/peter/Downloads/iso/2021-10-30-raspios-bullseye-arm64.img
+OS_IMAGE=/home/peter/Downloads/iso/2021-12-02-raspios-buster-armhf.img
 WI_FI_CONFIG=/tmp/wpa_supplicant.conf
 SD_CARD_DEVICE=/dev/sda
 SD_CARD_PARTITION_BOOT=/dev/sda1
@@ -34,6 +34,7 @@ fi
 
 ##########
 echo "2. Copying OS image to SD card ... "
+echo "Image: $OS_IMAGE"
 if dd bs=4M if=$OS_IMAGE of=$SD_CARD_DEVICE status=progress conv=fsync; then
     echo "Copied OS image"
 else
