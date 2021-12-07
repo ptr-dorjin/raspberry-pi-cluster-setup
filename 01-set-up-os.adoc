@@ -85,7 +85,7 @@ Use this number in this command, which will copy the SD card back to the disk as
 
 ==== Set up Wi-Fi
 
-- Create a file on the computer: `/tmp/wpa_supplicant.conf` with the content (do it only once and then reuse it for all Pi's):
+- Create a file on the computer: `/tmp/wpa_supplicant.conf` with the content below. Use your 2.4 GHz network, not 5 GHz. Do it only once and then reuse it for all Pi's:
 +
 ----
 ctrl_interface=DIR=/var/run/wpa_supplicant GROUP=netdev
@@ -93,7 +93,7 @@ update_config=1
 country=US
 
 network={
-    ssid="your-network-name"
+    ssid="your-2.4GHz-network-name"
     psk="your-network-password"
     key_mgmt=WPA-PSK
 }
