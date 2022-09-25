@@ -3,7 +3,7 @@
 This is a short version.
 Full descriptions is in the official  https://www.raspberrypi.org/documentation/installation/installing-images/README.md[OS installation guide]
 
-== Preequisites
+== Prerequisites
 
 - A laptop/desktop with Linux
 
