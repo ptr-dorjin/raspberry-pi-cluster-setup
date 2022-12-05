@@ -1,11 +1,15 @@
 #!/bin/bash
 
-OS_IMAGE=/home/peter/Downloads/iso/2021-12-02-raspios-buster-armhf.img
-WI_FI_CONFIG=/tmp/wpa_supplicant.conf
-SD_CARD_DEVICE=/dev/sda
-SD_CARD_PARTITION_BOOT=/dev/sda1
+OS_IMAGE=/home/peter/Downloads/iso/2022-09-22-raspios-bullseye-arm64-lite.img
+
+SD_CARD_DEVICE=/dev/mmcblk0
+SD_CARD_PARTITION_BOOT=/dev/mmcblk0p1
 # rootfs is present only if the SD card already has OS installed on it
-SD_CARD_PARTITION_ROOTFS=/dev/sda2
+SD_CARD_PARTITION_ROOTFS=/dev/mmcblk0p2
+
+USER_CONFIG=/tmp/userconf
+WI_FI_CONFIG=/tmp/wpa_supplicant.conf
+
 BOOT_PARTITION_MOUNT_POINT=/mnt/sd/boot
 
 ##########
@@ -60,7 +64,16 @@ else
 fi
 
 ##########
-echo -n "4. Setting up SSH ... "
+echo -n "4. Setting up new user ... "
+if cp $USER_CONFIG /mnt/sd/boot/; then
+    echo "Copied user config to SD card"
+else
+    echo "Error while copying user config to SD card"
+    exit 1
+fi
+
+##########
+echo -n "5. Setting up SSH ... "
 if touch /mnt/sd/boot/ssh; then
     echo "Enabled SSH"
 else
@@ -69,7 +82,7 @@ else
 fi
 
 ##########
-echo -n "5. Setting up WiFi ... "
+echo -n "6. Setting up WiFi ... "
 if cp $WI_FI_CONFIG /mnt/sd/boot/; then
     echo "Copied WiFi config to SD card"
 else
@@ -78,7 +91,7 @@ else
 fi
 
 ##########
-echo -n "6. Unmounting ... "
+echo -n "7. Unmounting ... "
 if umount $SD_CARD_PARTITION_BOOT; then
     echo "Unmounted SD card"
 else

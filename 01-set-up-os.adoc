@@ -10,12 +10,23 @@ Full descriptions is in the official  https://www.raspberrypi.org/documentation/
 == Prepare image
 
 - Download the latest Raspberry Pi OS Lite 64-bit, which is a headless version, from https://downloads.raspberrypi.org/raspios_lite_arm64/images/[Raspberry Pi Lite arm64 images page]
-- Unzip the archive to get an `*.img` file
+- `unxz` the archive to get an `*.img` file
 
 == Setup
 
-- Create a file on the computer: `/tmp/wpa_supplicant.conf` with the content below. Fill in your Wi-Fi network name and password. Do it only once and then reuse it for all Pis.
+- Run `lsblk -p` to find the SD card device and its partition name(s).
+It's not going to change if you're using the same SD reader or USB port.
 
+- Set up a new user:
+** Run this command to print out encrypted password: `echo 'mypassword' | openssl passwd -6 -stdin`
+** Create a file on the computer: `/tmp/userconf` that contains a single line of text:
++
+----
+pi:encrypted_password
+----
+
+- Create a file on the computer: `/tmp/wpa_supplicant.conf` with the content below. Fill in your Wi-Fi network name and password (2.4 GHz network, not 5 GHz). Do it only once and then reuse it for all Pis.
++
 ----
 ctrl_interface=DIR=/var/run/wpa_supplicant GROUP=netdev
 update_config=1
@@ -27,9 +38,6 @@ network={
     key_mgmt=WPA-PSK
 }
 ----
-
-- Run `lsblk -p` to find the SD card device and its partition name(s).
-It's not going to change if you're using the same SD reader or USB port.
 
 NOTE: The rest of commands below needs to be done N times - for each Pi
 
@@ -77,6 +85,10 @@ Use this number in this command, which will copy the SD card back to the disk as
 
 - Run `sync` to ensure that write cache is flushed and that it is safe to unmount the SD card.
 
+==== Set up a new user
+
+- Copy `/tmp/userconf` file to the boot partition: `sudo cp /tmp/userconf /mnt/sd/boot/`
+
 ==== Set up SSH
 
 - Create a directory on the computer to mount the boot partition: `sudo mkdir -p /mnt/sd/boot`
@@ -85,21 +97,7 @@ Use this number in this command, which will copy the SD card back to the disk as
 
 ==== Set up Wi-Fi
 
-- Create a file on the computer: `/tmp/wpa_supplicant.conf` with the content below. Use your 2.4 GHz network, not 5 GHz. Do it only once and then reuse it for all Pi's:
-+
-----
-ctrl_interface=DIR=/var/run/wpa_supplicant GROUP=netdev
-update_config=1
-country=US
-
-network={
-    ssid="your-2.4GHz-network-name"
-    psk="your-network-password"
-    key_mgmt=WPA-PSK
-}
-----
-
-- Copy it to the boot partition: `sudo cp /tmp/wpa_supplicant.conf /mnt/sd/boot/`
+- Copy `/tmp/wpa_supplicant.conf` file to the boot partition: `sudo cp /tmp/wpa_supplicant.conf /mnt/sd/boot/`
 
 ==== Ready!
 
