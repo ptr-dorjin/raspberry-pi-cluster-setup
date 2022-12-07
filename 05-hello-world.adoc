@@ -1,13 +1,13 @@
 = Run Hello World app in the cluster
 
 ----
-kubectl apply -f 06-hello-world/hello-world.yml
+kubectl apply -f 05-hello-world/hello-world.yml
 kubectl get pods --namespace hello-world
 ----
 
 Then open any node on port 31117 in the browser, for example, node `kube3`: http://192.168.0.103:31117
 
-Finally, delete the namespace and it will also remove the pods:
+Finally, delete the namespace, and it will also remove the pods:
 
 ----
 kubectl delete ns hello-world

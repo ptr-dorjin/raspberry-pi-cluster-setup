@@ -16,7 +16,7 @@ So, for now, run it manually N times - on each node:
 
 == Run `k3s-ansible` playbook
 
-- cd to `./05-install-k8s`
+- cd to `./04-install-k8s`
 - Specify Raspberry Pi's IP addresses in `inventory/hosts.ini`
 
 - Run the playbook:
