@@ -7,8 +7,13 @@ The steps below are based on https://github.com/k3s-io/k3s-ansible
 
 ----
 cd <project_root>
+rm -rf 04-install-k8s/*
+
 git clone git@github.com:k3s-io/k3s-ansible.git 04-install-k8s
+
 cd 04-install-k8s
+rm -rf .git
+git restore .gitignore
 ----
 - Specify Raspberry Pi's IP addresses in `inventory/hosts.ini`
 
