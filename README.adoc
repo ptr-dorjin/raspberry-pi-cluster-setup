@@ -3,6 +3,6 @@
 - xref:00-raspberry-pi-cluster-options.adoc[Setup Options]
 - xref:01-set-up-os.adoc[Set up OS]
 - xref:02-set-up-network.adoc[Set up network]
-- xref:03-test-connection.adoc[Test connection]
+- xref:03-disable-swap.adoc[Disable swap]
 - xref:04-install-kubernetes.adoc[Install Kubernetes]
 - xref:05-hello-world.adoc[Hello World app]

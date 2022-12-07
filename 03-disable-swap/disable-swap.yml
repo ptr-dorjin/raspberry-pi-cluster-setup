@@ -1,0 +1,27 @@
+---
+- hosts: rpis
+  become: yes
+
+  tasks:
+    - name: Retrieve dphys-swapfile status
+      stat:
+        path: /usr/sbin/dphys-swapfile
+      register: dphys_swapfile
+
+    - name: Turn off swap
+      when: dphys_swapfile.stat.exists
+      command: dphys-swapfile swapoff
+
+    - name: Uninstall swap
+      when: dphys_swapfile.stat.exists
+      command: dphys-swapfile uninstall
+
+    - name: Remove System-V style init script
+      command: update-rc.d dphys-swapfile remove
+      changed_when: false
+
+    - name: Purge dphys-swapfile
+      apt:
+        name: dphys-swapfile
+        state: absent
+        purge: true

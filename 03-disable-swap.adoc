@@ -1,0 +1,9 @@
+= Testing Connection After Network Setup
+
+`./03-disable-swap/inventory` file contains the new IP addresses.
+
+[source,shell script]
+----
+cd 03-disable-swap
+ansible-playbook -i inventory disable-swap.yml
+----

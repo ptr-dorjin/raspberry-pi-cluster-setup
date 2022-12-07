@@ -127,7 +127,7 @@ The output should have something like:
 NOTE: This also needs to be done N times - for each Pi
 
 This command will copy the most recent public key that matches `~/.ssh/id*.pub`.
-Another key can be explicitly specified with `-i` argument, e.g.:
+Specific key can be explicitly passed with `-i` argument:
 
 ----
 ssh-copy-id pi@192.168.0.12
