@@ -1,9 +1,0 @@
-[rpis]
-192.168.0.101
-192.168.0.115
-192.168.0.54
-192.168.0.13
-
-[rpis:vars]
-ansible_user=pi
-ansible_python_interpreter=auto

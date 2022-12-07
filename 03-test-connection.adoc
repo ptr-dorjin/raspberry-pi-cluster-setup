@@ -6,6 +6,6 @@ Ways to test the connection with the new static IP addresses:
 
 [source,shell script]
 ----
-cd 04-test-connection
+cd 03-test-connection
 ansible all -i inventory -m ping
 ----

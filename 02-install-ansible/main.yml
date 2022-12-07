@@ -1,6 +1,0 @@
----
-- hosts: rpis
-
-  tasks:
-    - name: Test date and time
-      command: date
