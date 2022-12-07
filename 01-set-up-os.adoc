@@ -20,6 +20,8 @@ It's not going to change if you're using the same SD reader or USB port.
 - Set up a new user:
 ** Run this command to print out encrypted password: `echo 'mypassword' | openssl passwd -6 -stdin`
 ** Create a file on the computer: `/tmp/userconf` that contains a single line of text:
+*** Username can be anything, not necessarily `pi`
+*** `encrypted_password` is from the output above
 +
 ----
 pi:encrypted_password
