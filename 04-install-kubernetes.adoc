@@ -5,7 +5,11 @@ The steps below are based on https://github.com/k3s-io/k3s-ansible
 
 == Run `k3s-ansible` playbook
 
-- cd to `./04-install-k8s`
+----
+cd <project_root>
+git clone git@github.com:k3s-io/k3s-ansible.git 04-install-k8s
+cd 04-install-k8s
+----
 - Specify Raspberry Pi's IP addresses in `inventory/hosts.ini`
 
 - Run the playbook:
