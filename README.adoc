@@ -5,4 +5,5 @@
 - xref:02-set-up-network.adoc[Set up network]
 - xref:03-disable-swap.adoc[Disable swap]
 - xref:04-install-k8s.adoc[Install Kubernetes]
-- xref:05-hello-world.adoc[Hello World app]
+- xref:05-rancher.adoc[Install Rancher]
+- xref:06-hello-world.adoc[Hello World app]

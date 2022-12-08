@@ -34,21 +34,36 @@ vim inventory/my-cluster/group_vars/all.yml
 ansible-playbook site.yml -i inventory/my-cluster/hosts.ini
 ----
 
+=== Troubleshooting
+
+==== failed to find memory cgroup (v2)
+
+If k3s service fails to start with `failed to find memory cgroup (v2)` (in `journalctl -xe`), it's probably due to Debian 11 Bullseye is not supported yet.
+
+More details: https://github.com/k3s-io/k3s-ansible/pull/185
+
+Solution: use the code from the CR
+
 == Connect to the control plane
 
 - If everything went well, run this command to copy config from the control plane (master) to your local computer:
 +
 ----
+mkdir ~/.kube
 scp pi@192.168.0.101:~/.kube/config ~/.kube/config
 ----
 
-- Make sure is `kubectl` is installed on the local compute, for instance
+- Identify current k8s version in `04-install-k8s/k3s-ansible/inventory/my-cluster/group_vars/all.yml` > `k3s_version` property. For example: `v1.22.3+k3s1`, here upstream version is `v1.22.3`
+- Make sure the same version of `kubectl` is installed on the local computer
 +
 ----
-sudo apt install -y kubectl
+curl -LO https://dl.k8s.io/release/v1.22.3/bin/linux/amd64/kubectl
+curl -LO https://dl.k8s.io/v1.22.3/bin/linux/amd64/kubectl.sha256
+echo "$(cat kubectl.sha256) kubectl" | sha256sum --check
+sudo install -o root -g root -m 0755 kubectl /usr/local/bin/kubectl
 ----
 
-- Validate it with `kubectl version`. Ideally, client version and server version should match.
+- Validate: `kubectl version`
 - Check nodes: `kubectl get nodes`
 
 == Shut down Pis before you unplug them

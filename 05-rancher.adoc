@@ -1,0 +1,19 @@
+= Install Rancher
+
+- Install Rancher in a Docker container:
++
+----
+sudo docker run -d --restart=unless-stopped -p 80:80 -p 443:443 --privileged rancher/rancher
+----
+More details: https://www.rancher.com/products/rancher (Quickstart Guide)
+
+- Open `https://localhost` in the browser
+- Get the randomly generated password from Docker logs:
++
+----
+docker ps
+# copy CONTAINER ID value
+docker logs container_id 2>&1 | grep "Bootstrap Password:"
+----
+
+- Now you can import the Raspberry Pis cluster in Rancher UI via "Import Existing" button
