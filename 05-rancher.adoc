@@ -13,7 +13,7 @@ More details: https://www.rancher.com/products/rancher (Quickstart Guide)
 ----
 docker ps
 # copy CONTAINER ID value
-docker logs container_id 2>&1 | grep "Bootstrap Password:"
+docker logs <container_id> 2>&1 | grep "Bootstrap Password:"
 ----
 
 - Now you can import the Raspberry Pis cluster in Rancher UI via "Import Existing" button
