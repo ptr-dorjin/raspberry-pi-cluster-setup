@@ -1,7 +1,7 @@
 = Run Hello World app in the cluster
 
 ----
-kubectl apply -f 06-hello-world/hello-world.yml
+kubectl apply -f 05-hello-world/hello-world.yml
 kubectl get pods --namespace hello-world
 ----
 
