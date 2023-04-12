@@ -1,0 +1,72 @@
+= Install Prometheus and Grafana
+
+== Create monitoring namespace:
+
+`kubectl create namespace monitoring`
+
+== Install Helm, if not yet
+
+----
+curl -fsSL -o get_helm.sh https://raw.githubusercontent.com/helm/helm/main/scripts/get-helm-3
+chmod 700 get_helm.sh
+./get_helm.sh
+----
+
+== Install kube-prometheus-stack
+
+----
+helm repo add prometheus-community https://prometheus-community.github.io/helm-charts
+helm repo update
+helm install prometheus --namespace monitoring prometheus-community/kube-prometheus-stack
+----
+
+Full instruction: https://github.com/prometheus-community/helm-charts/tree/main/charts/kube-prometheus-stack[kube-prometheus-stack chart]
+
+== Verify pods and services are created in the monitoring namespace
+
+----
+kubectl get pods --namespace monitoring
+kubectl get service -n monitoring
+----
+
+Note the port numbers of prometheus and grafana web UIs:
+
+- `prometheus-kube-prometheus-prometheus` service, most likely 9090
+- `prometheus-grafana` service, most likely 80
+
+== Check Prometheus web UI (without Grafana)
+
+.Forward Prometheus web UI port to the laptop:
+----
+kubectl port-forward -n monitoring service/prometheus-kube-prometheus-prometheus 3001:9090
+----
+
+Open https://localhost:3001
+
+== Check Grafana web UI
+
+.Get default user password:
+----
+kubectl get secret -n monitoring prometheus-grafana -o jsonpath="{.data.admin-password}" | base64 --decode ; echo
+----
+
+.Forward Grafana web UI port to the laptop:
+----
+kubectl port-forward -n monitoring service/prometheus-grafana 3000:80
+----
+
+Open https://localhost:3000
+
+Default Grafana username: admin / the password is the one obtained from the secret above
+
+Check out dashboards:
+
+- General / Node Exporter / Nodes
+- General / Kubernetes / Compute Resources / Cluster
+- General / Kubernetes / Compute Resources / Namespace (Workloads)
+
+== Power off the cluster
+
+----
+ansible all -i inventory.ini -a "shutdown now" -b -e "ansible_user=pi"
+----

@@ -6,3 +6,4 @@
 - xref:03-disable-swap.adoc[Disable swap]
 - xref:04-install-k8s.adoc[Install Kubernetes]
 - xref:05-hello-world.adoc[Hello World app]
+- xref:06-install-monitoring-tools.adoc[Monitor the cluster]

@@ -33,3 +33,9 @@ this will show the port, use it in the next command:
 ----
 curl -k -H "Content-Type: application/json" -X PUT --data-binary @/tmp/ns.json http://127.0.0.1:8001/api/v1/namespaces/hello-world/finalize
 ----
+
+== Power off the cluster
+
+----
+ansible all -i inventory.ini -a "shutdown now" -b -e "ansible_user=pi"
+----
