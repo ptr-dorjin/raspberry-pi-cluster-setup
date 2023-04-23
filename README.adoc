@@ -1,5 +1,7 @@
 = Raspberry Pi cluster setup
 
+This project describes how to set up a cluster of four Raspberry Pi 4 and run Kubernetes K3s on it.
+
 - xref:00-raspberry-pi-cluster-options.adoc[Setup Options]
 - xref:01-set-up-os.adoc[Set up OS]
 - xref:02-set-up-network.adoc[Set up network]

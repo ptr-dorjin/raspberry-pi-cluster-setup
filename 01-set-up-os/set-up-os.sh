@@ -1,16 +1,16 @@
 #!/bin/bash
 
-OS_IMAGE=/home/peter/Downloads/iso/2022-09-22-raspios-bullseye-arm64-lite.img
+OS_IMAGE=/home/peter/Downloads/iso/2023-02-21-raspios-bullseye-arm64-lite.img
 
-SD_CARD_DEVICE=/dev/mmcblk0
-SD_CARD_PARTITION_BOOT=/dev/mmcblk0p1
+SD_CARD_DEVICE=/dev/sda
+SD_CARD_PARTITION_BOOT=/dev/sda1
 # rootfs is present only if the SD card already has OS installed on it
-SD_CARD_PARTITION_ROOTFS=/dev/mmcblk0p2
-
-USER_CONFIG=/tmp/userconf
-WI_FI_CONFIG=/tmp/wpa_supplicant.conf
+SD_CARD_PARTITION_ROOTFS=/dev/sda2
 
 BOOT_PARTITION_MOUNT_POINT=/mnt/sd/boot
+
+USER_CONFIG=/tmp/userconf
+WIFI_CONFIG=/tmp/wpa_supplicant.conf
 
 ##########
 echo -n "1. If the SD card is mounted, unmount it ... "
@@ -64,8 +64,8 @@ else
 fi
 
 ##########
-echo -n "4. Setting up new user ... "
-if cp $USER_CONFIG /mnt/sd/boot/; then
+echo -n "4. Setting up new user for Raspberry Pi ... "
+if cp $USER_CONFIG $BOOT_PARTITION_MOUNT_POINT/; then
     echo "Copied user config to SD card"
 else
     echo "Error while copying user config to SD card"
@@ -74,7 +74,7 @@ fi
 
 ##########
 echo -n "5. Setting up SSH ... "
-if touch /mnt/sd/boot/ssh; then
+if touch $BOOT_PARTITION_MOUNT_POINT/ssh; then
     echo "Enabled SSH"
 else
     echo "Error while creating SSH file on SD card"
@@ -83,7 +83,7 @@ fi
 
 ##########
 echo -n "6. Setting up WiFi ... "
-if cp $WI_FI_CONFIG /mnt/sd/boot/; then
+if cp $WIFI_CONFIG $BOOT_PARTITION_MOUNT_POINT/; then
     echo "Copied WiFi config to SD card"
 else
     echo "Error while copying WiFi config to SD card"
