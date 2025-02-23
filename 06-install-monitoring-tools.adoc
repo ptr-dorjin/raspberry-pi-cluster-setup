@@ -4,7 +4,7 @@
 
 `kubectl create namespace monitoring`
 
-== Install Helm, if not yet
+== Install Helm on the laptop, if not yet
 
 ----
 curl -fsSL -o get_helm.sh https://raw.githubusercontent.com/helm/helm/main/scripts/get-helm-3
@@ -34,16 +34,16 @@ Note the port numbers of prometheus and grafana web UIs:
 - `prometheus-kube-prometheus-prometheus` service, most likely 9090
 - `prometheus-grafana` service, most likely 80
 
-== Check Prometheus web UI (without Grafana)
+== Verify Prometheus web UI works (without Grafana)
 
 .Forward Prometheus web UI port to the laptop:
 ----
 kubectl port-forward -n monitoring service/prometheus-kube-prometheus-prometheus 3001:9090
 ----
 
-Open https://localhost:3001
+Open http://localhost:3001. Note: not https
 
-== Check Grafana web UI
+== Verify Grafana web UI works
 
 .Get default user password:
 ----
@@ -55,7 +55,7 @@ kubectl get secret -n monitoring prometheus-grafana -o jsonpath="{.data.admin-pa
 kubectl port-forward -n monitoring service/prometheus-grafana 3000:80
 ----
 
-Open https://localhost:3000
+Open http://localhost:3000. Note: not https
 
 Default Grafana username: admin / the password is the one obtained from the secret above
 
